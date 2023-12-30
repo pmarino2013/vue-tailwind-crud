@@ -7,27 +7,33 @@
         <h3>Plase wait...</h3>
       </div>
     </div>
-    <div v-if="show" class="overlay flex justify-center items-center">
-      <div class="h-20 p-2 bg-slate-100 rounded-lg">
-        <div class="flex justify-end">
-          <button @click="changeShow()">X</button>
-        </div>
-        <h3 class="text-lg font-bold">User Update</h3>
+    <Transition>
+      <div v-if="show" class="overlay flex justify-center items-center">
+        <ModalUpdateApp :changeShow="changeShow" />
       </div>
-    </div>
+    </Transition>
   </div>
 </template>
 <script setup>
 import { ref } from "vue";
 import TableApp from "../components/TableApp.vue";
-
+import ModalUpdateApp from "../components/ModalUpdateApp.vue";
 const show = ref(false);
-
 const changeShow = () => {
   show.value = !show.value;
 };
 </script>
+
 <style scope>
+.v-enter-active,
+.v-leave-active {
+  transition: opacity 0.5s ease;
+}
+
+.v-enter-from,
+.v-leave-to {
+  opacity: 0;
+}
 .overlay {
   position: absolute;
   top: 0;
