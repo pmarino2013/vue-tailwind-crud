@@ -1,8 +1,5 @@
 <template>
-  <table
-    v-if="arrayUsers.length > 0"
-    class="border-collapse border border-slate-500"
-  >
+  <table class="border-collapse border border-slate-500">
     <thead>
       <tr class="bg-slate-600 text-center text-slate-200">
         <th class="border border-slate-500 p-3">#</th>
@@ -27,7 +24,7 @@
             <button @click="deleteUser(user.id)">
               <i class="fa fa-trash-o" aria-hidden="true"></i>
             </button>
-            <button @click="changeShow()">
+            <button @click="changeShow(user)">
               <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
             </button>
           </div>
@@ -37,30 +34,18 @@
   </table>
 </template>
 <script setup>
-import { onMounted, ref } from "vue";
+// import { onMounted, ref } from "vue";
 const props = defineProps({
   changeShow: Function,
+  arrayUsers: Array,
+  updateArrayUsers: Function,
 });
-
-const url = "https://jsonplaceholder.typicode.com/users";
-const arrayUsers = ref([]);
-onMounted(async () => {
-  arrayUsers.value = await getUsers();
-});
-
-const getUsers = async () => {
-  const response = await fetch(url);
-  const data = await response.json();
-  return data;
-};
 
 const deleteUser = (id) => {
-  //   const response = await fetch(url + "/" + id);
-  //   const data = await response.json();
-  //   console.log(data);
-  arrayUsers.value = arrayUsers.value.filter((item) => {
+  const newArray = props.arrayUsers.filter((item) => {
     return item.id !== id;
   });
+  props.updateArrayUsers(newArray);
 };
 </script>
 <style scope></style>

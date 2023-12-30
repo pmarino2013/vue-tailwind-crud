@@ -1,26 +1,50 @@
 <template>
   <div class="mx-auto flex items-center flex-col py-5">
     <h1 class="text-3xl my-5 text-slate-100">Admin Users</h1>
-    <div>
-      <TableApp :changeShow="changeShow" />
-      <div class="text-center">
-        <h3>Plase wait...</h3>
-      </div>
+    <div v-if="arrayUsers.length > 0">
+      <TableApp
+        :changeShow="changeShow"
+        :updateArrayUsers="updateArrayUsers"
+        :arrayUsers="arrayUsers"
+      />
     </div>
     <Transition>
       <div v-if="show" class="overlay flex justify-center items-center">
-        <ModalUpdateApp :changeShow="changeShow" />
+        <ModalUpdateApp
+          :changeShow="changeShow"
+          :idUser="idUser"
+          :updateUser="updateUser"
+        />
       </div>
     </Transition>
   </div>
 </template>
 <script setup>
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
+import { getUsers } from "../helpers/usersApi";
 import TableApp from "../components/TableApp.vue";
 import ModalUpdateApp from "../components/ModalUpdateApp.vue";
+
 const show = ref(false);
-const changeShow = () => {
+const idUser = ref(null);
+const arrayUsers = ref([]);
+
+onMounted(async () => {
+  arrayUsers.value = await getUsers();
+});
+
+const updateArrayUsers = (array) => {
+  arrayUsers.value = [...array];
+};
+
+const changeShow = (usuario) => {
   show.value = !show.value;
+  idUser.value = usuario;
+};
+
+const updateUser = (data) => {
+  arrayUsers.value[data.id] = data;
+  show.value = false;
 };
 </script>
 
