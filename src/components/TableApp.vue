@@ -37,15 +37,8 @@
 // import { onMounted, ref } from "vue";
 const props = defineProps({
   changeShow: Function,
+  deleteUser: Function,
   arrayUsers: Array,
-  updateArrayUsers: Function,
 });
-
-const deleteUser = (id) => {
-  const newArray = props.arrayUsers.filter((item) => {
-    return item.id !== id;
-  });
-  props.updateArrayUsers(newArray);
-};
 </script>
 <style scope></style>

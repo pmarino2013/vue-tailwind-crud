@@ -4,7 +4,7 @@
     <div v-if="arrayUsers.length > 0">
       <TableApp
         :changeShow="changeShow"
-        :updateArrayUsers="updateArrayUsers"
+        :deleteUser="deleteUser"
         :arrayUsers="arrayUsers"
       />
     </div>
@@ -21,6 +21,7 @@
 </template>
 <script setup>
 import { ref, onMounted } from "vue";
+import Swal from "sweetalert2";
 import { getUsers } from "../helpers/usersApi";
 import TableApp from "../components/TableApp.vue";
 import ModalUpdateApp from "../components/ModalUpdateApp.vue";
@@ -33,10 +34,6 @@ onMounted(async () => {
   arrayUsers.value = await getUsers();
 });
 
-const updateArrayUsers = (array) => {
-  arrayUsers.value = [...array];
-};
-
 const changeShow = (usuario) => {
   show.value = !show.value;
   idUser.value = { ...usuario };
@@ -46,6 +43,23 @@ const updateUser = (data) => {
   const index = arrayUsers.value.findIndex((item) => item.id == data.id);
   arrayUsers.value[index] = data;
   show.value = false;
+};
+
+const deleteUser = (id) => {
+  Swal.fire({
+    title: "Are you sure you want to delete this user?",
+    showCancelButton: true,
+    confirmButtonText: "Delete",
+    allowOutsideClick: false,
+    allowEscapeKey: false,
+  }).then((result) => {
+    if (result.isConfirmed) {
+      const newArray = arrayUsers.value.filter((item) => {
+        return item.id !== id;
+      });
+      arrayUsers.value = [...newArray];
+    }
+  });
 };
 </script>
 

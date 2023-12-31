@@ -10,7 +10,9 @@
   },
   "dependencies": {
     "font-awesome": "^4.7.0",
-    "vue": "^3.2.45"
+    "sweetalert2": "^11.10.2",
+    "vue": "^3.2.45",
+    "vue-sweetalert2": "^5.0.5"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^4.0.0",
