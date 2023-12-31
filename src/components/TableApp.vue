@@ -19,15 +19,15 @@
     <tbody>
       <tr
         class="text-center bg-slate-800 text-slate-400 hover:bg-slate-700 hover:text-slate-200"
-        v-for="user in arrayUsers"
+        v-for="(user, index) in arrayUsers"
         :key="user.id"
       >
-        <td class="border border-slate-500 p-2">{{ user.id }}</td>
+        <td class="border border-slate-500 p-2">{{ index + 1 }}</td>
         <td class="border border-slate-500 p-2">{{ user.name }}</td>
         <td class="border border-slate-500 p-2">{{ user.username }}</td>
         <td class="border border-slate-500 p-2">{{ user.email }}</td>
         <td class="border border-slate-500 p-2">
-          <div class="flex gap-3">
+          <div class="flex gap-3 justify-evenly">
             <button @click="deleteUser(user.id)">
               <i class="fa fa-trash-o" aria-hidden="true"></i>
             </button>
