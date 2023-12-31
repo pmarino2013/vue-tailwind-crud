@@ -6,7 +6,14 @@
         <th class="border border-slate-500 p-3">Name</th>
         <th class="border border-slate-500 p-3">Username</th>
         <th class="border border-slate-500 p-3">Email</th>
-        <th class="border border-slate-500 p-3"></th>
+        <th class="border border-slate-500 p-3">
+          <button
+            @click="changeShow(null)"
+            class="px-4 py-1 text-sm text-slate-300 font-semibold rounded-full border border-slate-300 hover:text-slate-800 hover:bg-slate-300 hover:border-transparent focus:outline-none focus:ring-2 focus:ring-slate-600 focus:ring-offset-2"
+          >
+            Add User
+          </button>
+        </th>
       </tr>
     </thead>
     <tbody>

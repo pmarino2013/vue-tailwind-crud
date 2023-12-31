@@ -5,7 +5,7 @@
     </div>
     <h3 class="text-lg font-bold text-center mb-3">User Update</h3>
 
-    <form class="w-full px-2" @submit.prevent="handleSubmit">
+    <form v-if="userChange" class="w-full px-2" @submit.prevent="handleSubmit">
       <div class="flex gap-2 mb-2">
         <div class="w-1/2">
           <label class="block">
@@ -13,25 +13,41 @@
             <input
               type="text"
               v-model="userChange.name"
+              required
               class="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md text-sm shadow-sm placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500 invalid:border-pink-500 invalid:text-pink-600 focus:invalid:border-pink-500 focus:invalid:ring-pink-500"
             />
           </label>
         </div>
         <div class="w-1/2">
           <label class="block">
-            <span class="block text-sm font-medium text-slate-700">Email</span>
+            <span class="block text-sm font-medium text-slate-700"
+              >Username</span
+            >
             <input
               type="text"
-              v-model="userChange.email"
+              required
+              v-model="userChange.username"
               class="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md text-sm shadow-sm placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500 invalid:border-pink-500 invalid:text-pink-600 focus:invalid:border-pink-500 focus:invalid:ring-pink-500"
             />
           </label>
         </div>
       </div>
+      <div>
+        <label class="block">
+          <span class="block text-sm font-medium text-slate-700">Email</span>
+          <input
+            type="text"
+            required
+            v-model="userChange.email"
+            class="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md text-sm shadow-sm placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500 invalid:border-pink-500 invalid:text-pink-600 focus:invalid:border-pink-500 focus:invalid:ring-pink-500"
+          />
+        </label>
+      </div>
       <label class="block">
         <span class="block text-sm font-medium text-slate-700">Company</span>
         <input
           type="text"
+          required
           v-model="userChange.company.name"
           class="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md text-sm shadow-sm placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500 invalid:border-pink-500 invalid:text-pink-600 focus:invalid:border-pink-500 focus:invalid:ring-pink-500"
         />
@@ -40,7 +56,7 @@
         <button
           class="px-4 py-1 text-sm text-slate-600 font-semibold rounded-full border border-slate-300 hover:text-white hover:bg-slate-600 hover:border-transparent focus:outline-none focus:ring-2 focus:ring-slate-600 focus:ring-offset-2"
         >
-          Update
+          {{ isNewUser ? "Add" : "Update" }}
         </button>
       </div>
     </form>
@@ -51,14 +67,50 @@ const props = defineProps({
   changeShow: Function,
   idUser: Object,
   updateUser: Function,
+  addUser: Function,
 });
 
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 
-const userChange = ref(props.idUser);
-
+const userChange = ref(null);
+const isNewUser = ref(null);
+onMounted(() => {
+  if (props.idUser) {
+    userChange.value = props.idUser;
+    isNewUser.value = false;
+  } else {
+    isNewUser.value = true;
+    userChange.value = {
+      id: new Date().getTime(),
+      name: "",
+      username: "",
+      email: "",
+      address: {
+        street: "",
+        suite: "",
+        city: "",
+        zipcode: "",
+        geo: {
+          lat: "",
+          lng: "",
+        },
+      },
+      phone: "",
+      website: "",
+      company: {
+        name: "",
+        catchPhrase: "",
+        bs: "",
+      },
+    };
+  }
+});
 const handleSubmit = () => {
-  props.updateUser(userChange.value);
+  if (isNewUser.value) {
+    props.addUser(userChange.value);
+  } else {
+    props.updateUser(userChange.value);
+  }
 };
 </script>
 <style scope></style>

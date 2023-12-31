@@ -1,6 +1,7 @@
 <template>
   <div class="mx-auto flex items-center flex-col py-5">
     <h1 class="text-3xl my-5 text-slate-100">Admin Users</h1>
+
     <div v-if="arrayUsers.length > 0">
       <TableApp
         :changeShow="changeShow"
@@ -14,6 +15,7 @@
           :changeShow="changeShow"
           :idUser="idUser"
           :updateUser="updateUser"
+          :addUser="addUser"
         />
       </div>
     </Transition>
@@ -36,9 +38,16 @@ onMounted(async () => {
 
 const changeShow = (usuario) => {
   show.value = !show.value;
-  idUser.value = { ...usuario };
+  if (usuario) {
+    idUser.value = { ...usuario };
+  } else {
+    idUser.value = null;
+  }
 };
-
+const addUser = (data) => {
+  arrayUsers.value.push(data);
+  show.value = false;
+};
 const updateUser = (data) => {
   const index = arrayUsers.value.findIndex((item) => item.id == data.id);
   arrayUsers.value[index] = data;
