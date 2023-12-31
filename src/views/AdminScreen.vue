@@ -22,7 +22,7 @@
   </div>
 </template>
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, watch } from "vue";
 import Swal from "sweetalert2";
 import { getUsers } from "../helpers/usersApi";
 import TableApp from "../components/TableApp.vue";
@@ -33,7 +33,17 @@ const idUser = ref(null);
 const arrayUsers = ref([]);
 
 onMounted(async () => {
-  arrayUsers.value = await getUsers();
+  const validar = JSON.parse(localStorage.getItem("users")) || null;
+  if (!validar) {
+    arrayUsers.value = await getUsers();
+    localStorage.setItem("users", JSON.stringify(arrayUsers.value));
+  } else {
+    arrayUsers.value = [...validar];
+  }
+});
+
+watch(arrayUsers, (newArray) => {
+  localStorage.setItem("users", JSON.stringify(newArray));
 });
 
 const changeShow = (usuario) => {
@@ -45,12 +55,13 @@ const changeShow = (usuario) => {
   }
 };
 const addUser = (data) => {
-  arrayUsers.value.push(data);
+  arrayUsers.value = [...arrayUsers.value, data];
   show.value = false;
 };
 const updateUser = (data) => {
   const index = arrayUsers.value.findIndex((item) => item.id == data.id);
-  arrayUsers.value[index] = data;
+  arrayUsers.value[index] = { ...data };
+  localStorage.setItem("users", JSON.stringify(arrayUsers.value));
   show.value = false;
 };
 
