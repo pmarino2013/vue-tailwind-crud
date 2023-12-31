@@ -58,7 +58,7 @@ import { ref } from "vue";
 const userChange = ref(props.idUser);
 
 const handleSubmit = () => {
-  props.updateUser(userChange);
+  props.updateUser(userChange.value);
 };
 </script>
 <style scope></style>

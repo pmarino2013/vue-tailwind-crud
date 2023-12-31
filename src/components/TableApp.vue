@@ -11,7 +11,7 @@
     </thead>
     <tbody>
       <tr
-        class="text-center bg-slate-800 text-slate-400 hover:bg-slate-600 hover:text-slate-200"
+        class="text-center bg-slate-800 text-slate-400 hover:bg-slate-700 hover:text-slate-200"
         v-for="user in arrayUsers"
         :key="user.id"
       >

@@ -39,11 +39,12 @@ const updateArrayUsers = (array) => {
 
 const changeShow = (usuario) => {
   show.value = !show.value;
-  idUser.value = usuario;
+  idUser.value = { ...usuario };
 };
 
 const updateUser = (data) => {
-  arrayUsers.value[data.id] = data;
+  const index = arrayUsers.value.findIndex((item) => item.id == data.id);
+  arrayUsers.value[index] = data;
   show.value = false;
 };
 </script>
