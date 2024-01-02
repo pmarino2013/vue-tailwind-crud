@@ -2,13 +2,13 @@
   <div class="mx-auto flex items-center flex-col py-5">
     <h1 class="text-3xl my-5 text-slate-100">Admin Users</h1>
 
-    <div v-if="arrayUsers.length > 0">
-      <TableApp
-        :changeShow="changeShow"
-        :deleteUser="deleteUser"
-        :arrayUsers="arrayUsers"
-      />
-    </div>
+    <TableApp
+      v-if="arrayUsers && arrayUsers.length > 0"
+      :changeShow="changeShow"
+      :deleteUser="deleteUser"
+      :arrayUsers="arrayUsers"
+    />
+
     <Transition>
       <div v-if="show" class="overlay flex justify-center items-center">
         <ModalUpdateApp
