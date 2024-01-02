@@ -55,8 +55,21 @@ const changeShow = (usuario) => {
   }
 };
 const addUser = (data) => {
-  arrayUsers.value = [...arrayUsers.value, data];
-  show.value = false;
+  const validar = arrayUsers.value.find((user) => {
+    return user.email == data.email || user.username == data.username;
+  });
+
+  if (!validar) {
+    arrayUsers.value = [...arrayUsers.value, data];
+    show.value = false;
+  } else {
+    Swal.fire({
+      title: `The entered data already belongs to a user.`,
+      confirmButtonText: "Ok",
+      allowOutsideClick: false,
+      allowEscapeKey: false,
+    });
+  }
 };
 const updateUser = (data) => {
   const index = arrayUsers.value.findIndex((item) => item.id == data.id);
